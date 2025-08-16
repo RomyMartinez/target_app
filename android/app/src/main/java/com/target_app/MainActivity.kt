@@ -1,4 +1,4 @@
-package com.targetapp
+package com.target_app
 
 import android.os.Build
 import android.os.Bundle
