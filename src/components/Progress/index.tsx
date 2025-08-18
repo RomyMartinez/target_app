@@ -1,0 +1,33 @@
+import { View, Text } from "react-native";
+
+import { styles } from "./styles";
+
+type SavedValue = {
+  current: string;
+  target: string;
+  percentage: number;
+};
+
+type Props = {
+  data: SavedValue;
+};
+
+export function Progress({ data }: Props) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>Saved Value</Text>
+      <View style={styles.status}>
+        <Text style={styles.value}>
+          ${data.current}
+          <Text style={styles.target}> of {data.target}</Text>
+        </Text>
+        <Text style={styles.percentage}>{data.percentage.toFixed(2)}%</Text>
+      </View>
+      <View style={styles.progress}>
+        <View
+          style={[styles.currentProgress, { width: `${data.percentage}%` }]}
+        />
+      </View>
+    </View>
+  );
+}
