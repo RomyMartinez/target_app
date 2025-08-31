@@ -13,7 +13,7 @@ export default function InProgress() {
   const details = {
     current: "1000",
     target: "1000",
-    percentage: 1000,
+    percentage: 10,
   };
 
   const transactions = [
@@ -26,7 +26,7 @@ export default function InProgress() {
     },
     {
       id: "2",
-      value: "100",
+      value: "200",
       date: "2021-01-01",
       description: "Apple Watch",
       type: TransactionTypes.Output,
