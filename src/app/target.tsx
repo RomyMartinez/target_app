@@ -14,7 +14,7 @@ export default function Target() {
           label="Target Name"
           placeholder="Ex: Travel to Japan, Buy a new car..."
         />
-        <CurrencyInput label="Target Value" value={0} />
+        <CurrencyInput label="Target Value ($)" value={0} />
         <Button title="Create Target" />
       </View>
     </View>
