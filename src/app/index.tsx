@@ -41,6 +41,7 @@ export default function App() {
 
     const [targets] = await Promise.all([targetDataPromise]);
     setTargets(targets);
+    setLoading(false);
   }
 
   useFocusEffect(
