@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { Stack } from "expo-router";
 import { colors } from "@/theme/color";
 import {
@@ -7,6 +9,9 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import { Loading } from "@/components/Loading";
+
+import { migrate } from "@/database/migrate";
+import { SQLiteProvider } from "expo-sqlite";
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -20,13 +25,17 @@ export default function Layout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {
-          backgroundColor: colors.white,
-        },
-      }}
-    />
+    <Suspense fallback={<Loading />}>
+      <SQLiteProvider databaseName="target.db" onInit={migrate} useSuspense>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: colors.white,
+            },
+          }}
+        />
+      </SQLiteProvider>
+    </Suspense>
   );
 }
