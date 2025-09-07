@@ -15,6 +15,10 @@ export type TargetResponse = {
   updated_at: Date;
 };
 
+export type TargetUpdate = Target & {
+  id: number;
+};
+
 export function useTargetDatabase() {
   const database = useSQLiteContext();
 
@@ -65,5 +69,21 @@ export function useTargetDatabase() {
     );
   }
 
-  return { createTarget, getTargets, show };
+  async function update(data: TargetUpdate) {
+    const statement = await database.prepareAsync(`
+        UPDATE targets SET
+          name = $name,
+          amount = $amount,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $id;
+      `);
+
+    statement.executeAsync({
+      $id: data.id,
+      $name: data.name,
+      $amount: data.amount,
+    });
+  }
+
+  return { createTarget, getTargets, show, update };
 }
