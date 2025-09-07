@@ -6,7 +6,7 @@ import { List } from "@/components/List";
 import { Button } from "@/components/Button";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
-import { use, useCallback } from "react";
+import { use, useCallback, useState } from "react";
 
 const summaryData = {
   total: "$100,00",
@@ -14,53 +14,36 @@ const summaryData = {
   output: { label: "Out", value: "- $100,00" },
 };
 
-const targetsData: TargetProps[] = [
-  {
-    id: "1",
-    name: "Car",
-    percentage: "100%",
-    current: "$100,00",
-    target: "$100,00",
-  },
-  {
-    id: "2",
-    name: "House",
-    percentage: "50%",
-    current: "$50,00",
-    target: "$100,00",
-  },
-  {
-    id: "3",
-    name: "Vacation",
-    percentage: "25%",
-    current: "$25,00",
-    target: "$100,00",
-  },
-  {
-    id: "4",
-    name: "Car",
-    percentage: "100%",
-    current: "$100,00",
-    target: "$100,00",
-  },
-];
-
 export default function App() {
+  const [targets, setTargets] = useState<TargetProps[]>([]);
   const { getTargets } = useTargetDatabase();
 
-  async function fetchTargets() {
+  async function fetchTargets(): Promise<TargetProps[]> {
     try {
       const response = await getTargets();
-      console.log(response);
+      return response.map((item) => ({
+        id: String(item.id),
+        name: item.name,
+        current: String(item.current),
+        percentage: item.percentage.toFixed(0) + "%",
+        target: String(item.amount),
+      }));
     } catch (error) {
       Alert.alert("Error", "An error occurred while fetching targets.");
       console.log(error);
     }
   }
 
+  async function fetchData() {
+    const targetDataPromise = fetchTargets();
+
+    const [targets] = await Promise.all([targetDataPromise]);
+    setTargets(targets);
+  }
+
   useFocusEffect(
     useCallback(() => {
-      fetchTargets();
+      fetchData();
     }, []),
   );
 
@@ -75,7 +58,7 @@ export default function App() {
       <List
         title="Targets"
         emptyMessage="No targets found"
-        data={targetsData}
+        data={targets}
         renderItem={({ item }) => (
           <Target
             data={item}
