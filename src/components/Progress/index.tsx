@@ -18,10 +18,10 @@ export function Progress({ data }: Props) {
       <Text style={styles.label}>Saved Value</Text>
       <View style={styles.status}>
         <Text style={styles.value}>
-          ${data.current}
+          {data.current}
           <Text style={styles.target}> of {data.target}</Text>
         </Text>
-        <Text style={styles.percentage}>{data.percentage.toFixed(2)}%</Text>
+        <Text style={styles.percentage}>{data.percentage.toFixed(0)}%</Text>
       </View>
       <View style={styles.progress}>
         <View
