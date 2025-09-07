@@ -6,6 +6,7 @@
     "version": "1.0.0",
     "android": {
       "package": "com.target_app",
+      "edgeToEdgeEnabled": true  ,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3d44cd"
@@ -18,7 +19,14 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-system-ui",
+        {
+          "androidStatusBarBackgroundColor": "#ffffff",
+          "androidNavigationBarBackgroundColor": "#ffffff"
+        }
+      ]
     ]
   }
 }

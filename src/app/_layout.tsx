@@ -9,16 +9,19 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 import { Loading } from "@/components/Loading";
+import { StatusBar } from "expo-status-bar";
 
 import { migrate } from "@/database/migrate";
 import { SQLiteProvider } from "expo-sqlite";
 
 export default function Layout() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded] =
+   useFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_700Bold,
   });
+
 
   if (!fontsLoaded) {
     return <Loading />;
@@ -26,7 +29,8 @@ export default function Layout() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <SQLiteProvider databaseName="target.db" onInit={migrate} useSuspense>
+      <SQLiteProvider databaseName="app.db" onInit={migrate} useSuspense>
+        <StatusBar style="dark" backgroundColor={colors.white} />
         <Stack
           screenOptions={{
             headerShown: false,
@@ -39,3 +43,4 @@ export default function Layout() {
     </Suspense>
   );
 }
+

@@ -5,5 +5,6 @@
         "Entradas",
         "Saídas",
         "você"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
