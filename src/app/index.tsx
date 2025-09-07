@@ -4,6 +4,7 @@ import { HomeHeader } from "@/components/HomeHeader";
 import { Target, TargetProps } from "@/components/Target";
 import { List } from "@/components/List";
 import { Button } from "@/components/Button";
+import { Loading } from "@/components/Loading";
 
 import { useTargetDatabase } from "@/database/useTargetDatabase";
 import { use, useCallback, useState } from "react";
@@ -15,6 +16,7 @@ const summaryData = {
 };
 
 export default function App() {
+  const [loading, setLoading] = useState(true);
   const [targets, setTargets] = useState<TargetProps[]>([]);
   const { getTargets } = useTargetDatabase();
 
@@ -46,6 +48,10 @@ export default function App() {
       fetchData();
     }, []),
   );
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <View style={{ flex: 1 }}>
