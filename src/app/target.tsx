@@ -5,6 +5,7 @@ import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 import { CurrencyInput } from "@/components/CurrencyInput";
 import { useState } from "react";
+import { useTargetDatabase } from "@/database/useTargetDatabase";
 
 export default function Target() {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,6 +13,7 @@ export default function Target() {
   const [amount, setAmount] = useState(0);
 
   const params = useLocalSearchParams<{ id?: string }>();
+  const targetDatabase = useTargetDatabase();
 
   function handleSave() {
     if (!name.trim() || amount <= 0) {
@@ -27,6 +29,7 @@ export default function Target() {
 
   async function createTarget() {
     try {
+      await targetDatabase.createTarget({ name, amount });
       Alert.alert("Success", "Target created successfully!", [
         {
           text: "OK",
