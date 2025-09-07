@@ -1,9 +1,12 @@
-import { View, StatusBar } from "react-native";
-import { router } from "expo-router";
+import { View, StatusBar, Alert } from "react-native";
+import { router, useFocusEffect } from "expo-router";
 import { HomeHeader } from "@/components/HomeHeader";
 import { Target, TargetProps } from "@/components/Target";
 import { List } from "@/components/List";
 import { Button } from "@/components/Button";
+
+import { useTargetDatabase } from "@/database/useTargetDatabase";
+import { use, useCallback } from "react";
 
 const summaryData = {
   total: "$100,00",
@@ -43,6 +46,24 @@ const targetsData: TargetProps[] = [
 ];
 
 export default function App() {
+  const { getTargets } = useTargetDatabase();
+
+  async function fetchTargets() {
+    try {
+      const response = await getTargets();
+      console.log(response);
+    } catch (error) {
+      Alert.alert("Error", "An error occurred while fetching targets.");
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTargets();
+    }, []),
+  );
+
   return (
     <View style={{ flex: 1 }}>
       <StatusBar
